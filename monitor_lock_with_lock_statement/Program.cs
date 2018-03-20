@@ -38,5 +38,17 @@ namespace monitor_lock_with_lock_statement
                 Console.WriteLine("{0} Releasing LOCKS", ThreadName);
             }
         }
+
+        static void Main(string[] args)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Thread thread = new Thread(new ThreadStart(ThreadMain));
+                thread.Name = String.Concat("Thread - ", i);
+                thread.Start();
+
+            }
+            Console.Read();
+        }
     }
 }
