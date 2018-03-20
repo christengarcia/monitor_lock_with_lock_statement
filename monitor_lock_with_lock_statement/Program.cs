@@ -15,5 +15,28 @@ namespace monitor_lock_with_lock_statement
             Thread.Sleep(800);    // Simulate Some work
             WriteToFile();
         }
+
+        static void WriteToFile()
+        {
+            String ThreadName = Thread.CurrentThread.Name;
+            Console.WriteLine("{0} USING LOCKS", ThreadName);
+            Monitor.Enter(locker);
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(@"D:\srip\sri.txt", true))
+                {
+                    sw.WriteLine(ThreadName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Monitor.Exit(locker);
+                Console.WriteLine("{0} Releasing LOCKS", ThreadName);
+            }
+        }
     }
 }
